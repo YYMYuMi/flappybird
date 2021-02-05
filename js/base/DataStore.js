@@ -25,7 +25,7 @@ export class DataStore{
     return this.map.get(key);
   }
   // 销毁数据
-  distory(){
+  destory(){
     this.map.clear()
   }
 }

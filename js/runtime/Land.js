@@ -8,7 +8,7 @@ export class Land extends Sprite{
     // 获取地板图片对象
     let img =Sprite.getImage("land");
     let canvas = DataStore.getInstance().canvas;
-    let w = canvas.width;
+    // let w = canvas.width;
     let h = canvas.height;
     let y = h - img.height; //在画布上的起点坐标
     // 重新父类构造
