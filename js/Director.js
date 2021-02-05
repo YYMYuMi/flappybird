@@ -1,4 +1,5 @@
 import { DataStore } from "./base/DataStore";
+import { boom, go } from "./music";
 import { DownPipe } from "./runtime/DownPipe";
 import { UpPipe } from "./runtime/UpPipe";
 
@@ -71,7 +72,7 @@ export class Director{
       top:birds.birdsY[0],  //小鸟的的顶部
       bottom:birds.birdsY[0] + birds.clippingHeight[0], //小鸟的底部
       left:birds.birdsX[0], //小鸟的左边
-      right:birds.birdsX[0] + birds.clippingWidth[0]  //小鸟的右边
+      right:birds.birdsX[0] + birds.birdsWidth[0]  //小鸟的右边
     }
     // 遍历水管,获取每一根水管的4条边
     for(let i=0;i<pipes.length;i++){
@@ -96,6 +97,7 @@ export class Director{
       score.scoreNumber++
       // 加了一次分不能继续加分
       score.canAdd = false;
+      go()
     }
   }
   
@@ -105,32 +107,35 @@ export class Director{
     // 先检查游戏有没有结束
     this.check()
     if(!this.isGameOver){
-      // 从变量池中获取图片渲染到屏幕上
-    this.dataStore.get("background").draw();
-    // 获取水管数组
-    let pipes = this.dataStore.get("pipes") //获取水管数组
-    // 创建水管的前提条件：第一组水管出界消失了，第二组水管越过中间线
-    // 删除出界的水管，水管的x坐标小于水管宽度的负值
-    if(pipes[0].x<(-pipes[0].w)/2 && pipes.length==4){
-      // 删除一组上下水管,shift两次
-      pipes.shift()
-      pipes.shift()
-      // 修改可以加分选项
-      this.dataStore.get("score").canAdd = true;
-    }
-    // 添加下一组水管，当前只有一组水管且这组水管已经越过中线
-    if(pipes[0].x<this.dataStore.canvas.width/2 && pipes.length==2){
-      this.createPipes();
-    }
-    pipes.forEach(pipe=>{ // 遍历水管数组,获取里面的每一个水管对象
-      // 调用水管对象的draw方法
-      pipe.draw();
-    })
-    this.dataStore.get("birds").draw();
-    this.dataStore.get("score").draw();
-    this.dataStore.get("land").draw();
-    this.id = requestAnimationFrame(()=>this.run())
+        // 从变量池中获取图片渲染到屏幕上
+      this.dataStore.get("background").draw();
+      // 获取水管数组
+      let pipes = this.dataStore.get("pipes") //获取水管数组
+      // 创建水管的前提条件：第一组水管出界消失了，第二组水管越过中间线
+      // 删除出界的水管，水管的x坐标小于水管宽度的负值
+      if(pipes[0].x<(-pipes[0].w)/2 && pipes.length==4){
+        // 删除一组上下水管,shift两次
+        pipes.shift()
+        pipes.shift()
+        // 修改可以加分选项
+        this.dataStore.get("score").canAdd = true;
+      }
+      // 添加下一组水管，当前只有一组水管且这组水管已经越过中线
+      if(pipes[0].x<this.dataStore.canvas.width/2 && pipes.length==2){
+        this.createPipes();
+      }
+      pipes.forEach(pipe=>{ // 遍历水管数组,获取里面的每一个水管对象
+        // 调用水管对象的draw方法
+        pipe.draw();
+      })
+        this.dataStore.get("birds").draw();
+        this.dataStore.get("score").draw();
+        this.dataStore.get("land").draw();
+
+        this.id = requestAnimationFrame(()=>this.run())
     }else{
+      boom();
+      cancelAnimationFrame(this.id);
       // 重绘图片,解决贴图错乱的问题
       this.dataStore.get("background").draw();
       this.dataStore.get("pipes").forEach(v=>{

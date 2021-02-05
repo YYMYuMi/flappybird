@@ -4,11 +4,13 @@ import { DataStore } from "./js/base/DataStore";
 import { ResourceLoader } from "./js/base/ResourceLoader";
 import { Sprite } from "./js/base/Sprite";
 import { Director } from "./js/Director";
+import { playbgm } from "./js/music";
 import { Birds } from "./js/player/Birds";
 import { Score } from "./js/player/Score";
 import { StartButton } from "./js/player/StartButton";
 import { Background } from "./js/runtime/Background";
 import { Land } from "./js/runtime/Land";
+import wxapi from "./js/wxApi"
 
 
 export class Main{//定义Main类
@@ -35,6 +37,10 @@ export class Main{//定义Main类
     this.store.res = map;
     this.store.canvas = this.canvas;
     this.store.ctx = this.ctx;
+    // playbgm();
+    // wxapi.createUserInfoButton()
+    // wxapi.getUserInfo();
+    wxapi.getTelInfo()
     // 初始化游戏的方法
     this.Init();
   }
@@ -68,6 +74,11 @@ export class Main{//定义Main类
     // this.canvas.addEventListener("touchstart", ()=>{
     // 需要使用wx提供的api
     wx.onTouchStart(e=>{
+      /* wx.showToast({
+        title: '错误',
+        icon:"loading",
+        duration:2000
+      }) */
       // console.log(e.touches[0]);
       let {clientX, clientY} = e.touches[0];
       // console.log(clientX, clientY);
@@ -92,6 +103,8 @@ export class Main{//定义Main类
           clientY < endY
         ){
           this.Init();
+        }else{
+          wxapi.showKeyboard();
         }
       }else{
         // 游戏进行中,点击小鸟向上飞
