@@ -47,7 +47,7 @@ function createUserInfoButton(){
 }
 
 // 显示弹出键盘
-function showKeyboard(){
+/* function showKeyboard(){
   wx.showKeyboard({
     defaultValue: "",
     maxLength: 50,
@@ -58,13 +58,13 @@ function showKeyboard(){
       console.log(res);
     }
   })
-}
+} */
 
 export default{
   getUserInfo,
   getTelInfo,
-  createUserInfoButton,
-  showKeyboard
+  createUserInfoButton//,
+  // showKeyboard
 }
 
 /* let obj = {
