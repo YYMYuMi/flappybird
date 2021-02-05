@@ -9,10 +9,10 @@ export class Sprite{
       srcY = 0, //图片初始y坐标
       srcW = 0, //图片宽
       srcH = 0, //图片高
-      x = 0, // 画布上的初始x坐标
-      y = 0, // 画布上的初始y坐标
-      w = 0, // 画布的宽
-      h = 0 // 画布的高
+      x = 0, // 图片在画布上的初始x坐标
+      y = 0, // 图片在画布上的初始y坐标
+      w = 0, // 图片在画布上的宽
+      h = 0 // 图片在画布上的高
     ){
       // 获取变脸池中的ctx对象
       this.ctx = DataStore.getInstance().ctx
